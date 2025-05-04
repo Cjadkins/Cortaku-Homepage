@@ -1,0 +1,43 @@
+# .dockerignore
+
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore Docker files
+Dockerfile
+.dockerignore
+
+# Ignore Node modules (we install them in the Dockerfile)
+node_modules
+
+# Ignore build outputs (we build them in the Dockerfile)
+.next
+dist
+build
+out
+
+# Ignore local environment variables
+.env*.local
+.env
+
+# Ignore development/debugging files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+*.tsbuildinfo
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore test files if not needed in production
+__tests__
+tests
+coverage
+
+# Ignore specific IDE/editor config files
+.vscode
+.idea
+

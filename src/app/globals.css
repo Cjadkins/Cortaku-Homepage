@@ -1,0 +1,202 @@
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add any other global styles here */
+html {
+  /* Remove cursor from html */
+}
+
+body {
+  scroll-behavior: smooth;
+  /* Apply base pastel background colors */
+  @apply bg-bg-light dark:bg-bg-dark;
+  cursor: url('/cursors/sword.svg') 50 12, auto;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+/* --- Add rule for app card hover --- */
+.app-card-link:hover {
+  /* Apply rotated sword cursor on hover */
+  /* Hotspot set to 50 12 */
+  cursor: url('/cursors/sword-slash.svg') 50 12, auto;
+}
+
+/* --- Utility class to preload hover cursor --- */
+.preload-slash-cursor {
+    /* Apply the hover cursor */
+    /* Hotspot set to 50 12 */
+    cursor: url('/cursors/sword-slash.svg') 50 12, auto;
+    /* Make the element visually hidden but still trigger resource load */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    left: -9999px;
+    top: -9999px;
+}
+
+
+/* Ensure Next.js Image fills container when using layout="fill" */
+/* (Keep this rule if you ever reintroduce Next/Image) */
+.next-image-fill {
+    width: 100%;
+    height: 100%;
+}
+.next-image-fill > img {
+    object-fit: cover; /* Ensure image covers the area */
+}
+
+/* Cherry Blossom Styles */
+.blossom-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+  isolation: isolate;
+}
+
+/* Define keyframes directly here */
+@keyframes blossom-fall-combined {
+  0%   { transform: translateY(-10%) translateX(0px); opacity: 1; }
+  25%  { transform: translateY(25vh) translateX(5px); } /* Sway right */
+  50%  { transform: translateY(55vh) translateX(-5px); } /* Sway left */
+  75%  { transform: translateY(85vh) translateX(5px); } /* Sway right */
+  100% { transform: translateY(110vh) translateX(0px); opacity: 0; } /* End center */
+}
+
+
+.blossom {
+  position: absolute;
+  top: -10%;
+  left: var(--left);
+  width: 15px;
+  height: 15px;
+  /* Use new pastel blossom color */
+  background-color: theme('colors.blossom');
+  border-radius: 50% 0 50% 0;
+  opacity: 1; /* Start fully opaque */
+
+  /* Apply ONLY the combined animation */
+  /* Use the keyframe name directly */
+  animation-name: blossom-fall-combined;
+  animation-duration: var(--duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-delay: var(--delay);
+
+  /* Add optimization hints back */
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform: translateZ(0); /* Keep layer promotion */
+
+}
+
+/* --- Particle Styles --- */
+.particle-container {
+  position: absolute; /* Position relative to the main page container */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allow clicks to pass through */
+  overflow: hidden;
+  z-index: 10; /* Below blossoms but above content if needed */
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  /* Base styles, specific color/size set inline */
+  pointer-events: none;
+  /* Animation handled by JS */
+}
+
+/* --- Idle Character Easter Egg Styles --- */
+@keyframes peek-out {
+  /* Start hidden and slightly offset */
+  0% { transform: translate(-30%, -30%) scale(0.8) rotate(0deg); opacity: 0; } /* Adjusted start position */
+  /* Appear and tilt */
+  40% { transform: translate(-50%, -50%) scale(1) rotate(-10deg); opacity: 1;} /* Centered */
+  /* Tilt other way */
+  60% { transform: translate(-50%, -50%) scale(1) rotate(5deg); } /* Centered */
+   /* Stay visible */
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } /* Centered */
+}
+
+@keyframes hide-behind {
+  /* Start visible */
+   0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } /* Centered */
+   /* Move back and fade */
+  100% { transform: translate(-30%, -30%) scale(0.8); opacity: 0; } /* Adjusted end position */
+}
+
+.idle-character {
+  position: absolute;
+  font-size: 2.5rem;
+  z-index: 15; /* Below cards (z-20) */
+  pointer-events: none;
+  opacity: 0; /* Start hidden */
+  /* Apply centering transform by default */
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+}
+
+.idle-character.visible {
+  opacity: 1;
+  /* *** Restored animation *** */
+  animation: peek-out 1.5s ease-in-out 1 forwards;
+}
+
+.idle-character.hiding {
+   opacity: 1; /* Start visible for animation */
+  /* *** Restored animation *** */
+  animation: hide-behind 1s ease-in 1 forwards;
+}
+
+.rainbow-overlay {
+  background: linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, magenta);
+  background-size: 400% 400%;
+  animation: rainbow-bg 2s ease-in-out infinite, fade-in-out var(--flash-duration, 1000ms) ease-in-out forwards;
+}
+
+@keyframes rainbow-bg {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes fly {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-150vh); opacity: 0; }
+}
+
+.animate-fly {
+  animation: fly 3s linear infinite;
+}
+
+.emoji-button {
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 8s linear infinite;
+}

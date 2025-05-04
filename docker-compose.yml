@@ -1,0 +1,15 @@
+services:
+  # Define your Next.js application service
+  cortaku-site:
+    # Use the image you built with 'docker build -t cortaku-site .'
+    image: cortaku-site
+    container_name: cortaku-site # Optional: give the running container a specific name
+    restart: always # Optional: automatically restart the container if it stops
+    networks:
+      - containers_cortaku # Connect this service to the 'cortaku' network
+
+networks:
+  # Define the network named 'cortaku'
+  containers_cortaku:
+    # Specify that this network already exists and was created outside of this compose file
+    external: true
